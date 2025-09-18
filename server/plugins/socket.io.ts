@@ -7,7 +7,11 @@ export default defineNitroPlugin((nitroApp) => {
   // Create Socket.io server
   const io = new Server(httpServer, {
     cors: {
-      origin: "*",
+      origin: [
+        "https://nuxt-chat-app-q1mh.onrender.com",
+        "https://your-vercel-app.vercel.app", // Replace with your Vercel URL later
+        "http://localhost:3000"
+      ],
       methods: ["GET", "POST"],
       credentials: true
     }
@@ -88,5 +92,5 @@ export default defineNitroPlugin((nitroApp) => {
     }
   })
 
-  console.log('✅ Socket.io server initialized')
+  console.log('✅ Socket.io server initialized for: https://nuxt-chat-app-q1mh.onrender.com')
 })
