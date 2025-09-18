@@ -1,0 +1,10 @@
+{
+  "login": "Login",
+  "logout": "Logout",
+
+  "private-chats": "Private Chats",
+  "rooms": "Rooms",
+
+  "message": "Enter your message ...",
+  "send": "Send"
+}

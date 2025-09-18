@@ -1,0 +1,9 @@
+1. setup the project
+
+npx nuxi init nuxt-chat-app
+cd nuxt-chat-app
+npm install
+npm install @pinia/nuxt socket.io socket.io-client firebase
+
+***
+

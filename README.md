@@ -2,6 +2,36 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+# ChatApp - Real-Time Chat Platform
+
+A professional, secure, and multilingual real-time chat application built with **Nuxt 3**, **Firebase Auth**, and **Socket.io**.
+
+## Features
+- One-on-one private chats
+- Public group chat rooms
+- Real-time updates using WebSockets
+- Firebase Authentication (Google)
+- Multilingual support (English & Arabic)
+- RTL/LTR support
+- Responsive design with dark/light theme
+- PWA ready
+
+## Tech Stack
+- **Frontend:** Nuxt 3, TailwindCSS, Vue 3 Composition API
+- **Backend:** Socket.io, Nitro server
+- **Authentication:** Firebase Auth
+- **Hosting:** Vercel (recommended)
+
+## Setup
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Create a `.env` file with Firebase configuration
+4. Run locally: `npm run dev`
+
+## License
+MIT
+
+
 ## Setup
 
 Make sure to install dependencies:

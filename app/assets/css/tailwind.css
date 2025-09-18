@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme variables */
+:root {
+  --color-primary: #9b59b6;
+  --color-background: #f5f0ff;
+  --color-surface: #1a0f2b;
+  --color-text: #4b0082;
+}
+
+/* Dark theme variables */
+.dark {
+  --color-primary: #6c3483;
+  --color-background: #1a0f2b;
+  --color-surface: #f5f0ff;
+  --color-text: #e0d4f7;
+}
+
+/* Optional body background */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Make the html/body/app always full height and prevent layout jumps */
+html, body, #app {
+  height: 100%;
+  overflow: hidden; /* no page scroll, chat handles its own scrolling */
+}
+
+/* Main chat area scroll */
+main {
+  @apply overflow-y-scroll; /* Tailwind utility */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+}
+
+/* Optional: style scrollbar */
+main::-webkit-scrollbar {
+  width: 8px;
+}
+main::-webkit-scrollbar-track {
+  background: transparent;
+}
+main::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
