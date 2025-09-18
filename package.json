@@ -3,6 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "render-build": "npm install && npm run build",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "start": "nuxt start",
