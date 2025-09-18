@@ -1,13 +1,17 @@
-import type { NitroApp } from 'nitropack'
-import { Server as IOServer } from 'socket.io'
-import { Server as Engine } from 'engine.io'
-import { defineEventHandler } from 'h3'
+import { Server } from 'socket.io'
 
-export default defineNitroPlugin((nitroApp: NitroApp) => {
-  const engine = new Engine()
-  const io = new IOServer()
-
-  io.bind(engine)
+export default defineNitroPlugin((nitroApp) => {
+  // Get the HTTP server from Nitro
+  const httpServer = nitroApp.h3App.nodeServer
+  
+  // Create Socket.io server
+  const io = new Server(httpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      credentials: true
+    }
+  })
 
   // Track users by UID with multiple sockets
   const usersByUid = new Map<
@@ -16,7 +20,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
   >()
 
   io.on('connection', (socket) => {
-    console.log('Connected:', socket.id)
+    console.log('✅ Connected:', socket.id)
 
     // Register a user socket
     socket.on('register', (userData: any) => {
@@ -27,9 +31,8 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
       }
 
       usersByUid.get(uid)!.sockets.add(socket.id)
-
       broadcastUsers()
-      console.log('User registered:', displayName)
+      console.log('👤 User registered:', displayName)
     })
 
     // Logout from one socket explicitly
@@ -51,7 +54,6 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
       if (recipient) {
         recipient.sockets.forEach(sid => io.to(sid).emit('private-message', msg))
       }
-      // Ack back to sender
       socket.emit('message-ack', msg)
     })
 
@@ -63,7 +65,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
 
     // Handle disconnect
     socket.on('disconnect', () => {
-      console.log('Disconnected:', socket.id)
+      console.log('❌ Disconnected:', socket.id)
       for (const [uid, data] of usersByUid.entries()) {
         data.sockets.delete(socket.id)
         if (data.sockets.size === 0) {
@@ -86,21 +88,5 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
     }
   })
 
-  nitroApp.router.use(
-    '/socket.io/',
-    defineEventHandler({
-      handler(event) {
-        engine.handleRequest(event.node.req, event.node.res)
-        event._handled = true
-      },
-      websocket: {
-        open(peer) {
-          // @ts-expect-error internal
-          engine.prepare(peer._internal.nodeReq)
-          // @ts-expect-error internal
-          engine.onWebSocket(peer._internal.nodeReq, peer._internal.nodeReq.socket, peer.websocket)
-        }
-      }
-    })
-  )
+  console.log('✅ Socket.io server initialized')
 })
